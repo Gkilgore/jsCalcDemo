@@ -31,7 +31,11 @@ function updateScreen () {
   const history = document.getElementById('historyLine')
   const status = document.getElementById('statusLine')
 
-  display.textContent = typedNumberText
+  if (typedNumberText !== '') {
+    display.textContent = typedNumberText
+  } else {
+    display.textContent = '0'
+  }
 
   if (historyParts.length === 0) {
     history.textContent = ''
@@ -43,9 +47,12 @@ function updateScreen () {
     history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1])
   }
   if (historyParts.length === 3) {
-    history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1]) + ' ' + historyParts[2]
-
-
+    history.textContent =
+      historyParts[0] +
+      ' ' +
+      showSymbol(historyParts[1]) +
+      ' ' +
+      historyParts[2]
   }
 }
 
