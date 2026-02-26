@@ -12,7 +12,7 @@ let currentOperator = ''
 let historyParts = []
 
 //------------------------
-//HELPER FUCNTIONS
+//HELPER FUNCTIONS
 //------------------------
 
 function setStatus (message) {
@@ -54,6 +54,8 @@ function updateScreen () {
       ' ' +
       historyParts[2]
   }
+
+  if (status.textContent === '') status.textContent = 'Ready'
 }
 
 function pressNumber (digit) {
@@ -68,11 +70,12 @@ function pressNumber (digit) {
 
 function pressOperator (op) {
   setStatus('')
-
+  // If nothing typed and nothing stored, do nothing
   if (typedNumberText === '' && storedNumber === null) {
     setStatus('Type a number first.')
+    updateScreen()
   }
-
+  // FIRST operator press: store first number
   if (storedNumber === null) {
     storedNumber = Number(typedNumberText)
     currentOperator = op
@@ -80,4 +83,24 @@ function pressOperator (op) {
     typedNumberText = ''
     updateScreen()
   }
+  // if second number was typed, calculate immediately
+  if (typedNumberText !== '') {
+    const secondNumber = typedNumberText
+    //Cant Divide by Zero
+    if (currentOperator === '/' && secondNumber === 0) {
+      setStatus('Cannot divide by 0.')
+      updateScreen()
+      return
+    }
+  }
+}
+
+function clearAll () {
+  typedNumberText = ''
+  storedNumber = null
+  currentOperator = ''
+  historyParts = []
+
+  setStatus('Cleared.')
+  updateScreen()
 }
